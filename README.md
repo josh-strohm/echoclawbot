@@ -12,6 +12,8 @@ npm install
 
 # 2. Run in dev mode (hot-reload)
 npm run dev
+
+# 3. Add Telegram Bot token when terminal requests it (Get from @BotFater), then do the same for your other API keys as they're requested in the terminal.
 ```
 
 ## Getting Your Tokens
