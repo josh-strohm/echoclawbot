@@ -7,8 +7,6 @@ A lean, secure, fully-understood agentic AI assistant. Telegram + tools + skills
 ## Bot Download & Install
 Click the green 'code' button and download zip, or initialize the git repository on your local machine.
 Extract the zip file contents to a drirectory of your choice.
-Open the terminal in the location and run 'npm run dev'
-You'll be then asked to enter your Telagram bot token followed by the API keys.
 
 ## Getting Your Tokens
 
