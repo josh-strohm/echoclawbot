@@ -4,6 +4,37 @@ A lean, secure, fully-understood agentic AI assistant. Telegram + tools + skills
 
 **Not** a fork of anything — built from scratch so every line is understood.
 
+## Getting Your Tokens
+
+### Telegram Bot Token
+1. Message [@BotFather](https://t.me/BotFather) on Telegram
+2. Send `/newbot` and follow the prompts
+
+### Your Telegram User ID
+1. Message [@userinfobot](https://t.me/userinfobot) on Telegram
+2. It will reply with your numeric user ID
+3. Store it in a safe place, you'll  need in shortly.
+
+### Anthropic API Key
+1. Go to [console.anthropic.com](https://console.anthropic.com)
+2. Create an API key
+3. Store it in a safe place, you'll  need in shortly.
+
+### OpenAI API Key
+1. Go to https://platform.openai.com
+2. Create an API key
+3. Store it in a safe place, you'll  need in shortly.
+
+### OpenRouter API Key
+1. Go to https://openrouter.ai
+2. Create an API key
+3. Store it in a safe place, you'll  need in shortly.
+
+### ElevenLabs API Key
+1. Go to https://elevenlabs.io/api
+2. Create an API key
+3. Store it in a safe place, you'll  need in shortly.
+
 ## Quick Start
 
 ```bash
@@ -15,23 +46,6 @@ npm run dev
 
 # 3. Add Telegram Bot token when terminal requests it (Get from @BotFater), then do the same for your other API keys as they're requested in the terminal.
 ```
-
-## Getting Your Tokens
-
-### Telegram Bot Token
-1. Message [@BotFather](https://t.me/BotFather) on Telegram
-2. Send `/newbot` and follow the prompts
-3. Copy the token into `.env`
-
-### Your Telegram User ID
-1. Message [@userinfobot](https://t.me/userinfobot) on Telegram
-2. It will reply with your numeric user ID
-3. Put it in `TELEGRAM_ALLOWED_USER_IDS` in `.env`
-
-### Anthropic API Key
-1. Go to [console.anthropic.com](https://console.anthropic.com)
-2. Create an API key
-3. Copy into `.env`
 
 ## Architecture
 
