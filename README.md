@@ -1,6 +1,6 @@
 # 🤖 EchoClaw Bot
 
-A lean, secure, fully-understood agentic AI assistant. Telegram + Claude + tools.
+A lean, secure, fully-understood agentic AI assistant. Telegram + tools + skills that can be added.
 
 **Not** a fork of anything — built from scratch so every line is understood.
 
