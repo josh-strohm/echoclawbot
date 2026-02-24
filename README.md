@@ -9,6 +9,8 @@ A lean, secure, fully-understood agentic AI assistant. Telegram + tools + skills
 ### Telegram Bot Token
 1. Message [@BotFather](https://t.me/BotFather) on Telegram
 2. Send `/newbot` and follow the prompts
+3. Look for the Bot Token
+4. Store it in a safe place, you'll  need in shortly.
 
 ### Your Telegram User ID
 1. Message [@userinfobot](https://t.me/userinfobot) on Telegram
