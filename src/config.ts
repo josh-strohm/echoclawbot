@@ -36,7 +36,7 @@ if (ALLOWED_USER_IDS.size === 0) {
 
 // ── Anthropic ─────────────────────────────────────────────
 export const ANTHROPIC_API_KEY = required("ANTHROPIC_API_KEY");
-export const CLAUDE_MODEL = optional("CLAUDE_MODEL", "claude-sonnet-4-20250514");
+export const CLAUDE_MODEL = optional("CLAUDE_MODEL", "minimax/minimax-m2.5");
 
 // ── OpenAI (Whisper) ──────────────────────────────────────
 export const OPENAI_API_KEY = required("OPENAI_API_KEY");
@@ -67,5 +67,8 @@ export const MAX_AGENT_ITERATIONS = parseInt(
     optional("MAX_AGENT_ITERATIONS", "10"),
     10
 );
+
+// ── Notion ────────────────────────────────────────────────
+export const NOTION_API_KEY = optional("NOTION_API_KEY", "");
 
 

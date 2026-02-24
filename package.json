@@ -4,7 +4,7 @@
     "description": "A lean, secure, fully-understood agentic AI assistant — EchoClaw Bot on Telegram + tools",
     "type": "module",
     "scripts": {
-        "dev": "tsx watch src/index.ts",
+        "dev": "tsx src/setup.ts",
         "start": "tsx src/index.ts",
         "typecheck": "tsc --noEmit"
     },
@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@anthropic-ai/sdk": "^0.39.0",
+        "@notionhq/client": "^2.3.0",
         "better-sqlite3": "^11.8.1",
         "dotenv": "^16.4.7",
         "googleapis": "^144.0.0",

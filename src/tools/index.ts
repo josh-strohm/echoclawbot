@@ -20,6 +20,9 @@ import "./gmail.js";
 // Google Calendar
 import "./google_calendar.js";
 
+// Notion
+import "./notion.js";
+
 // Level 4: import "./shell.js"; import "./mcp_bridge.js";
 
 // Level 5: Zapier MCP Integration (called explicitly in index.ts)

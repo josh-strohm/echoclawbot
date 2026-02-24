@@ -1421,3 +1421,127 @@
 [2026-02-23T01:07:57.133Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hi there"}
 [2026-02-23T01:07:57.134Z] [INFO] [agent] Using provider: openrouter {"model":"minimax/minimax-m2.5"}
 [2026-02-23T01:07:57.134Z] [INFO] [agent] OpenRouter Iter 1/10 {"chatId":8153833963,"messageCount":2,"lastRole":"user"}
+[2026-02-24T05:31:15.036Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:31:15.085Z] [INFO] [db] Opening database at C:\code\echoclawbot\echoclawbot\echoclawbot.db
+[2026-02-24T05:31:16.784Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:31:16.799Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:31:16.801Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:31:16.803Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:31:16.806Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:31:16.807Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:31:16.807Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:31:16.808Z] [INFO] [main]    Model:      claude-sonnet-4-20250514
+[2026-02-24T05:31:16.809Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:31:16.809Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:31:16.810Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:31:16.810Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:31:16.811Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:39:23.262Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:39:23.291Z] [INFO] [db] Opening database at C:\code\echoclawbot\echoclawbot\echoclawbot.db
+[2026-02-24T05:39:23.297Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:39:23.299Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:39:23.299Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:39:23.301Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:39:23.303Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:39:23.303Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:39:23.303Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:39:23.304Z] [INFO] [main]    Model:      claude-sonnet-4-20250514
+[2026-02-24T05:39:23.304Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:39:23.304Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:39:23.305Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:39:23.305Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:39:23.306Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:39:25.564Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":2}
+[2026-02-24T05:39:27.204Z] [INFO] [embeddings] Generated embedding {"length":2}
+[2026-02-24T05:39:27.204Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hi"}
+[2026-02-24T05:39:27.205Z] [INFO] [agent] Using provider: anthropic {"model":"claude-sonnet-4-20250514"}
+[2026-02-24T05:39:27.205Z] [INFO] [agent] Anthropic Iter 1/10 {"chatId":8153833963}
+[2026-02-24T05:39:27.440Z] [ERROR] [agent] Anthropic API error {"error":"Error: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CYSMcx9MsFhtB9UTtYgmw\"}"}
+[2026-02-24T05:39:27.705Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":5}
+[2026-02-24T05:39:28.720Z] [INFO] [embeddings] Generated embedding {"length":5}
+[2026-02-24T05:39:28.721Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hello"}
+[2026-02-24T05:39:28.721Z] [INFO] [agent] Using provider: anthropic {"model":"claude-sonnet-4-20250514"}
+[2026-02-24T05:39:28.722Z] [INFO] [agent] Anthropic Iter 1/10 {"chatId":8153833963}
+[2026-02-24T05:39:28.832Z] [ERROR] [agent] Anthropic API error {"error":"Error: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CYSMd4GDMW8UHe9pLkZk6\"}"}
+[2026-02-24T05:39:29.088Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":2}
+[2026-02-24T05:39:29.644Z] [INFO] [embeddings] Generated embedding {"length":2}
+[2026-02-24T05:39:29.645Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hi"}
+[2026-02-24T05:39:29.645Z] [INFO] [agent] Using provider: anthropic {"model":"claude-sonnet-4-20250514"}
+[2026-02-24T05:39:29.645Z] [INFO] [agent] Anthropic Iter 1/10 {"chatId":8153833963}
+[2026-02-24T05:39:29.769Z] [ERROR] [agent] Anthropic API error {"error":"Error: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CYSMd8B7Eok1TDdvW6ts4\"}"}
+[2026-02-24T05:39:30.046Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":5}
+[2026-02-24T05:39:31.438Z] [INFO] [embeddings] Generated embedding {"length":5}
+[2026-02-24T05:39:31.439Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hello"}
+[2026-02-24T05:39:31.439Z] [INFO] [agent] Using provider: anthropic {"model":"claude-sonnet-4-20250514"}
+[2026-02-24T05:39:31.440Z] [INFO] [agent] Anthropic Iter 1/10 {"chatId":8153833963}
+[2026-02-24T05:39:31.572Z] [ERROR] [agent] Anthropic API error {"error":"Error: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CYSMdFyuwoaQqzwfaquia\"}"}
+[2026-02-24T05:41:02.140Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:41:02.146Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:41:02.166Z] [INFO] [db] Opening database at C:\code\echoclawbot\echoclawbot\echoclawbot.db
+[2026-02-24T05:41:02.172Z] [INFO] [db] Opening database at C:\code\echoclawbot\echoclawbot\echoclawbot.db
+[2026-02-24T05:41:02.172Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:41:02.174Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:41:02.175Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:41:02.176Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:41:02.179Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:41:02.179Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:41:02.179Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:02.180Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:41:02.180Z] [INFO] [main]    Model:      claude-sonnet-4-20250514
+[2026-02-24T05:41:02.181Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:41:02.181Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:41:02.181Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:41:02.181Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:41:02.182Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:02.181Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:41:02.182Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:41:02.183Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:41:02.185Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:41:02.186Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:02.186Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:41:02.186Z] [INFO] [main]    Model:      claude-sonnet-4-20250514
+[2026-02-24T05:41:02.187Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:41:02.187Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:41:02.187Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:41:02.187Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:02.188Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:41:58.886Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:41:58.913Z] [INFO] [db] Opening database at C:\code\echoclawbot\echoclawbot\echoclawbot.db
+[2026-02-24T05:41:58.919Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:41:58.921Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:41:58.922Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:41:58.924Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:41:58.927Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:41:58.927Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:58.928Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:41:58.928Z] [INFO] [main]    Model:      minimax/minimax-m2.5
+[2026-02-24T05:41:58.929Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:41:58.929Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:41:58.929Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:41:58.930Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:41:58.930Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:42:08.046Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":25}
+[2026-02-24T05:42:10.720Z] [INFO] [embeddings] Generated embedding {"length":25}
+[2026-02-24T05:42:10.721Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"what model are you using?"}
+[2026-02-24T05:42:10.722Z] [INFO] [agent] Using provider: openrouter {"model":"minimax/minimax-m2.5"}
+[2026-02-24T05:42:10.723Z] [INFO] [agent] OpenRouter Iter 1/10 {"chatId":8153833963,"messageCount":2,"lastRole":"user"}
+[2026-02-24T05:46:21.879Z] [INFO] [google] Google OAuth client initialized with refresh token
+[2026-02-24T05:46:21.905Z] [INFO] [db] Opening database at C:\code\code_backup\echoclawbot\echoclawbot.db
+[2026-02-24T05:46:21.945Z] [INFO] [db] Loaded sqlite-vec extension
+[2026-02-24T05:46:21.948Z] [INFO] [db] Database ready — 0 memories stored
+[2026-02-24T05:46:21.948Z] [INFO] [db] Reminders table ready — 0 reminders stored
+[2026-02-24T05:46:21.950Z] [INFO] [db] Vector memory tables ready
+[2026-02-24T05:46:21.951Z] [INFO] [reminders] Reminder notification service started (60s interval)
+[2026-02-24T05:46:21.952Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:46:21.952Z] [INFO] [main] 🤖 EchoClaw Bot starting up...
+[2026-02-24T05:46:21.952Z] [INFO] [main]    Model:      minimax/minimax-m2.5
+[2026-02-24T05:46:21.953Z] [INFO] [main]    Max iters:  10
+[2026-02-24T05:46:21.953Z] [INFO] [main]    Tools:      27 registered
+[2026-02-24T05:46:21.953Z] [INFO] [main]    Whitelist:  1 user(s)
+[2026-02-24T05:46:21.953Z] [INFO] [main] ──────────────────────────────────────
+[2026-02-24T05:46:21.954Z] [INFO] [main] 🚀 Bot is live — listening via long-polling...
+[2026-02-24T05:46:54.858Z] [INFO] [bot] Incoming message {"chatId":8153833963,"messageLength":2}
+[2026-02-24T05:46:56.091Z] [INFO] [embeddings] Generated embedding {"length":2}
+[2026-02-24T05:46:56.092Z] [INFO] [vector_memory] Semantic search found 0 matches for chat 8153833963 {"query":"hi"}
+[2026-02-24T05:46:56.092Z] [INFO] [agent] Using provider: openrouter {"model":"minimax/minimax-m2.5"}
+[2026-02-24T05:46:56.093Z] [INFO] [agent] OpenRouter Iter 1/10 {"chatId":8153833963,"messageCount":2,"lastRole":"user"}
