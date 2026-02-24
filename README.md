@@ -10,11 +10,7 @@ A lean, secure, fully-understood agentic AI assistant. Telegram + Claude + tools
 # 1. Install dependencies
 npm install
 
-# 2. Set up your secrets
-cp .env.example .env
-# Edit .env with your real values
-
-# 3. Run in dev mode (hot-reload)
+# 2. Run in dev mode (hot-reload)
 npm run dev
 ```
 
