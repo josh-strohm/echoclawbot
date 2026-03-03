@@ -1,0 +1,21 @@
+# secrets
+.env
+.env.*
+
+# dependencies / builds
+node_modules/
+dist/
+
+# logs
+*.log
+
+# local data
+*.db
+*.sqlite
+*.sqlite3
+
+# agent/runtime state (usually local-only)
+agent_workspace/
+output.txt
+basic-memory.json
+telegram-memory.json

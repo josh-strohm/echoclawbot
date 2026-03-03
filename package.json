@@ -1,0 +1,26 @@
+{
+  "name": "ai-agent-framework",
+  "version": "1.0.0",
+  "description": "A foundational AI agent framework in Node.js with TypeScript",
+  "main": "dist/src/agent/agent.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/examples/telegram_bot.js",
+    "dev": "tsx examples/telegram_bot.ts"
+  },
+  "dependencies": {
+    "@pinecone-database/pinecone": "^7.1.0",
+    "@supabase/supabase-js": "^2.98.0",
+    "better-sqlite3": "^12.6.2",
+    "dotenv": "^16.6.1",
+    "grammy": "^1.40.1",
+    "openai": "^4.28.0",
+    "tavily": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.2"
+  }
+}
