@@ -17,7 +17,6 @@ import { logger } from "../logger.js";
 import { upsertFact, deleteFacts, searchSemanticFacts } from "./vector_memory.js";
 import crypto from "crypto";
 
-// Initialize clients
 const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
 const openrouter = new OpenAI({
     apiKey: OPENROUTER_API_KEY,
@@ -53,15 +52,12 @@ Respond ONLY with a valid JSON object matching this schema:
 
 If no new facts are found and no updates are needed, return empty arrays.`;
 
-export async function synthesizeMemory(chatId: number, recentMessages: { role: string; content: string }[], currentContext: string): Promise<void> {
+export async function synthesizeMemory(chatId: string, recentMessages: { role: string; content: string }[], currentContext: string): Promise<void> {
     logger.info("synthesizer", `Starting background synthesis for chat ${chatId}`);
 
     try {
-        // Prepare the conversation payload
         const transcript = recentMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join("\n");
 
-        // Retrieve some context to see if there are existing facts we are talking about
-        // Since we don't know the exact query, we can summarize the transcript's topics or just pass the last user message to search.
         const lastUserMsg = recentMessages.filter(m => m.role === "user").pop();
 
         let existingFactsStr = "No existing facts provided.";
@@ -98,14 +94,11 @@ export async function synthesizeMemory(chatId: number, recentMessages: { role: s
             content = response.choices[0].message.content || "{}";
         }
 
-        // Parse JSON
-        // Sometimes LLMs wrap JSON in markdown markdown blocks
         const jsonStr = content.replace(/```json/g, "").replace(/```/g, "").trim();
         const parsed = JSON.parse(jsonStr);
 
         let changesMade = 0;
 
-        // 1. Add new facts
         if (Array.isArray(parsed.new_facts)) {
             for (const f of parsed.new_facts) {
                 const id = `fact_${crypto.randomUUID()}`;
@@ -114,7 +107,6 @@ export async function synthesizeMemory(chatId: number, recentMessages: { role: s
             }
         }
 
-        // 2. Update existing facts
         if (Array.isArray(parsed.update_facts)) {
             for (const f of parsed.update_facts) {
                 if (f.id && f.content) {
@@ -124,7 +116,6 @@ export async function synthesizeMemory(chatId: number, recentMessages: { role: s
             }
         }
 
-        // 3. Delete obsolete facts
         if (Array.isArray(parsed.delete_facts) && parsed.delete_facts.length > 0) {
             await deleteFacts(parsed.delete_facts);
             changesMade += parsed.delete_facts.length;

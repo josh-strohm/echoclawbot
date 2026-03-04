@@ -1,0 +1,245 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dash-header h1 {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.dash-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.lobster-icon {
+    color: var(--primary-red);
+}
+
+/* Metrics Row */
+.metrics-row {
+    display: flex;
+    gap: 16px;
+}
+
+.metric-card {
+    flex: 1;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.weather-card {
+    flex: 1.5;
+    background: linear-gradient(to right, #222, #2a2a2a);
+    padding: 20px;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.metric-icon {
+    font-size: 1.2rem;
+}
+
+.blue-line {
+    color: #29b6f6;
+}
+
+.red-lightning {
+    color: var(--primary-red);
+}
+
+.green-check {
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 0.8rem;
+}
+
+.red-cross {
+    color: var(--primary-red);
+    border: 1px solid var(--primary-red);
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 0.8rem;
+}
+
+/* Weather */
+.weather-top {
+    margin-bottom: 12px;
+    color: var(--primary-red);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.weather-mid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.time {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.time .date {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+.temp {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sun-icon {
+    font-size: 2.5rem;
+}
+
+.temp-val {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.temp-val span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.weather-bot {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* Agents Section */
+.agents-section {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.agents-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.agents-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.agents-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-red {
+    background: var(--primary-red);
+    color: #fff;
+}
+
+.btn-link {
+    background: transparent;
+    color: var(--primary-red);
+}
+
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+}
+
+.agent-card {
+    background: #1e1e1e;
+    border: 1px solid;
+    /* color set inline */
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.2s;
+}
+
+.agent-card:hover {
+    transform: translateY(-4px);
+}
+
+.agent-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+}
+
+.agent-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.agent-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.agent-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.agent-bot {
+    font-size: 0.8rem;
+    font-weight: 600;
+}

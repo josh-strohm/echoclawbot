@@ -1,56 +1,55 @@
 /**
- * memory/embeddings.ts — OpenAI Embeddings Wrapper
+ * memory/embeddings.ts — Ollama Embeddings Wrapper
  *
- * Wraps the OpenAI API to generate vector embeddings for text.
- * We use text-embedding-3-small which outputs 1536-dimensional vectors.
+ * Uses local Ollama API for generating vector embeddings.
+ * Supports all-minilm model for fast embeddings.
  */
 
-import OpenAI from "openai";
-import { OPENAI_API_KEY } from "../config.js";
 import { logger } from "../logger.js";
 
-const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-});
+const OLLAMA_HOST = process.env.OLLAMA_HOST || "http://localhost:11434";
+const OLLAMA_MODEL = process.env.OLLAMA_EMBED_MODEL || "all-minilm";
 
-/**
- * Generate a vector embedding for a given string of text.
- * @param text The input text to embed.
- * @returns A 1536-dimensional float array.
- */
+async function ollamaRequest<T>(endpoint: string, body: unknown): Promise<T> {
+    const response = await fetch(`${OLLAMA_HOST}${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Ollama error: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
 export async function generateEmbedding(text: string): Promise<number[]> {
     try {
-        const response = await openai.embeddings.create({
-            model: "text-embedding-3-small",
+        const response = await ollamaRequest<{ embeddings: number[][] }>("/api/embed", {
+            model: OLLAMA_MODEL,
             input: text,
-            encoding_format: "float",
         });
 
-        logger.info("embeddings", "Generated embedding", { length: text.length });
-        return response.data[0].embedding;
+        logger.info("embeddings", "Generated embedding via Ollama", { length: text.length, model: OLLAMA_MODEL });
+        return response.embeddings[0];
     } catch (error) {
         logger.error("embeddings", "Failed to generate embedding", { error: String(error) });
         throw error;
     }
 }
 
-/**
- * Generate embeddings for an array of strings in a single batch.
- * @param texts Array of input strings.
- * @returns Array of 1536-dimensional float arrays.
- */
 export async function generateEmbeddingsBatch(texts: string[]): Promise<number[][]> {
     if (texts.length === 0) return [];
 
     try {
-        const response = await openai.embeddings.create({
-            model: "text-embedding-3-small",
+        const response = await ollamaRequest<{ embeddings: number[][] }>("/api/embed", {
+            model: OLLAMA_MODEL,
             input: texts,
-            encoding_format: "float",
         });
 
-        logger.info("embeddings", `Generated batch of ${texts.length} embeddings`);
-        return response.data.map(d => d.embedding);
+        logger.info("embeddings", `Generated batch of ${texts.length} embeddings via Ollama`, { model: OLLAMA_MODEL });
+        return response.embeddings;
     } catch (error) {
         logger.error("embeddings", "Failed to generate embedding batch", { error: String(error) });
         throw error;

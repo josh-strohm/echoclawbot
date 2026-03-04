@@ -3,3 +3,15 @@ dist/
 .env
 *.db
 *.db-journal
+
+# Logs
+*.log
+logs/
+
+# SQLite
+*.db
+*.db-wal
+*.db-shm
+
+# Build/output
+typescript-output.txt

@@ -61,7 +61,7 @@ export function createBot(): Bot {
         await ctx.replyWithChatAction("typing");
 
         try {
-            const response = await runAgent(chatId, userMessage);
+            const response = await runAgent(String(chatId), userMessage);
 
             // Telegram has a 4096 char limit per message
             if (response.length <= 4096) {
@@ -121,7 +121,7 @@ export function createBot(): Bot {
 
             // Step 3: Feed the transcript to the agent for a reply
             await ctx.replyWithChatAction("typing");
-            const response = await runAgent(chatId, transcript);
+            const response = await runAgent(String(chatId), transcript);
 
             // Step 4: Generate voice reply via ElevenLabs
             await ctx.replyWithChatAction("record_voice");

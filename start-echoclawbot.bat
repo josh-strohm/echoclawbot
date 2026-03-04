@@ -1,3 +1,4 @@
 @echo off
-cd /d C:\Users\josh.strohm\code\echoclawbot
-npx tsx src/index.ts
+cd /d "%~dp0"
+start /min npm run dev
+exit

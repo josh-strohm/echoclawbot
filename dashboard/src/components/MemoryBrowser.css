@@ -1,0 +1,126 @@
+.memory-container {
+    height: 100%;
+}
+
+.mem-header {
+    margin-bottom: 30px;
+}
+
+.mem-header h2 {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.mem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    height: calc(100% - 80px);
+}
+
+.mem-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.mem-column h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.icon {
+    font-size: 1.4rem;
+}
+
+.mem-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mem-card {
+    padding: 18px;
+    border-left: 2px solid transparent;
+}
+
+.core-card {
+    border-left-color: var(--primary-orange);
+    background: linear-gradient(90deg, rgba(255, 85, 0, 0.05) 0%, transparent 100%);
+}
+
+.empty {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+}
+
+.mem-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.category-badge {
+    background: rgba(255, 85, 0, 0.15);
+    color: #ffaa55;
+    border: 1px solid rgba(255, 85, 0, 0.3);
+}
+
+.type-badge {
+    background: rgba(0, 240, 255, 0.15);
+    color: #55ffff;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.importance-bar {
+    width: 60px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.importance-bar .fill {
+    height: 100%;
+    background: var(--primary-cyan);
+}
+
+.mem-content {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.mem-footer {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+}

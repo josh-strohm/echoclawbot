@@ -12,12 +12,13 @@
 import "dotenv/config";
 
 // Config is validated on import (will crash if env vars are missing)
-import { ALLOWED_USER_IDS, CLAUDE_MODEL, MAX_AGENT_ITERATIONS } from "./config.js";
+import { ALLOWED_USER_IDS, CLAUDE_MODEL, DISCORD_BOT_TOKEN, DISCORD_ALLOWED_USER_IDS, MAX_AGENT_ITERATIONS } from "./config.js";
 
 // Register all tools (side-effect imports)
 import "./tools/index.js";
 
 import { createBot } from "./bot.js";
+import { createDiscordBot } from "./discord_bot.js";
 import { getToolCount } from "./tools/registry.js";
 import { initDatabase, closeDatabase } from "./memory/db.js";
 import { GOOGLE_PUBSUB_TOPIC, GOOGLE_PUBSUB_SUBSCRIPTION } from "./config.js";
@@ -25,6 +26,7 @@ import { hasGoogleConfig } from "./lib/google.js";
 import { setupGmailWatch, startNotificationListener } from "./lib/gmail_notifications.js";
 import { logger } from "./logger.js";
 import { startReminderNotifications, stopReminderNotifications } from "./services/reminder_notifications.js";
+import { startEmailNotifications, stopEmailNotifications } from "./services/email_notifications.js";
 
 async function main(): Promise<void> {
     // Initialize local SQLite database (includes vector storage)
@@ -34,6 +36,9 @@ async function main(): Promise<void> {
 
     // Start reminder notifications
     startReminderNotifications(bot);
+
+    // Start email polling notifications
+    startEmailNotifications(bot);
 
     // Start Gmail notifications if configured
     if (hasGoogleConfig() && GOOGLE_PUBSUB_TOPIC && GOOGLE_PUBSUB_SUBSCRIPTION) {
@@ -52,11 +57,26 @@ async function main(): Promise<void> {
     logger.info("main", `   Whitelist:  ${ALLOWED_USER_IDS.size} user(s)`);
     logger.info("main", "──────────────────────────────────────");
 
+    let discordClient: ReturnType<typeof createDiscordBot> | null = null;
+
+    // Start Discord bot if configured
+    if (DISCORD_BOT_TOKEN && DISCORD_ALLOWED_USER_IDS.size > 0) {
+        discordClient = createDiscordBot();
+        await discordClient.login(DISCORD_BOT_TOKEN);
+        logger.info("main", "💬 Discord bot started");
+    } else {
+        logger.info("main", "⚠️ Discord bot not configured (missing TOKEN or USER_IDS)");
+    }
+
     // Graceful shutdown
     const shutdown = async (signal: string) => {
         logger.info("main", `${signal} received — shutting down...`);
         stopReminderNotifications();
+        stopEmailNotifications();
         bot.stop();
+        if (discordClient) {
+            discordClient.destroy();
+        }
         closeDatabase();
         process.exit(0);
     };

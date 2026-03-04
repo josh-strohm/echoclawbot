@@ -11,19 +11,16 @@ import { logger } from "../logger.js";
 export interface SemanticFact {
     id: string;
     score?: number;
-    chat_id: number;
+    chat_id: string;
     content: string;
     created_at: string;
     updated_at: string;
     importance: number;
 }
 
-/**
- * Upsert a single semantic fact into SQLite-Vec.
- */
 export async function upsertFact(
     factId: string,
-    chatId: number,
+    chatId: string,
     content: string,
     importance: number = 0.5
 ): Promise<void> {
@@ -65,11 +62,8 @@ export async function upsertFact(
     }
 }
 
-/**
- * Perform a semantic search query against the vector store.
- */
 export async function searchSemanticFacts(
-    chatId: number,
+    chatId: string,
     query: string,
     limit: number = 5
 ): Promise<SemanticFact[]> {
@@ -78,7 +72,6 @@ export async function searchSemanticFacts(
     try {
         const queryVector = await generateEmbedding(query);
 
-        // Get all vectors for this chat
         const results = db.prepare(`
             SELECT 
                 mm.row_id,
@@ -95,7 +88,7 @@ export async function searchSemanticFacts(
         `).all(chatId) as {
             row_id: number;
             fact_id: string;
-            chat_id: number;
+            chat_id: string;
             text: string;
             importance: number;
             created_at: string;
@@ -103,14 +96,12 @@ export async function searchSemanticFacts(
             embedding: Buffer;
         }[];
 
-        // Convert embedding Buffer to number array and calculate cosine similarity
         const scored = results.map(doc => {
             const docVector = Array.from(new Float32Array(doc.embedding.buffer));
             const similarity = cosineSimilarity(queryVector, docVector);
             return { ...doc, similarity };
         });
 
-        // Sort by similarity and take top results
         scored.sort((a, b) => b.similarity - a.similarity);
         const topResults = scored.slice(0, limit);
 
@@ -141,9 +132,6 @@ function cosineSimilarity(a: number[], b: number[]): number {
     return dotProduct / (magA * magB);
 }
 
-/**
- * Delete a batch of facts by their fact IDs.
- */
 export async function deleteFacts(factIds: string[]): Promise<void> {
     if (factIds.length === 0) return;
 

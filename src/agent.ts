@@ -26,13 +26,14 @@ import { getToolsForAPI, getTool } from "./tools/registry.js";
 import { buildMemoryContext } from "./memory/store.js";
 import { synthesizeMemory } from "./memory/synthesizer.js";
 import { logger } from "./logger.js";
+import { loadMemoryContext, buildMemoryContextString } from "./services/memoryLoader.js";
+import { processConversationBackground } from "./services/memoryProcessor.js";
 
-// Initialize clients
 const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
 const openrouter = new OpenAI({
     apiKey: OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1",
-    timeout: 60000, // 60 seconds
+    timeout: 60000,
     maxRetries: 3,
     defaultHeaders: {
         "HTTP-Referer": "https://github.com/joshstrohm/echoclawbot",
@@ -71,6 +72,55 @@ Memory system:
 - Your long-term memory is semantically indexed. Searching for "tech" will find facts about "Javascript" or "Python".
 - If the context provided in "SEMANTIC MEMORIES" is insufficient, use the "recall" tool with a specific query to dig deeper.
 - You are running as a Telegram bot. Keep responses clean.
+
+Agent Teams (Advanced):
+- For complex, multi-part tasks, you can use the "spawn_agent_team" tool to decompose the task into subtasks and execute them in parallel using sub-agents.
+- This is useful for: research tasks requiring multiple searches, complex projects with independent components, tasks that benefit from parallel execution.
+- After spawning a team, use "get_team_status" to check progress.
+- If needed, use "cancel_agent_team" to stop a running team.
+- Only use agent teams for genuinely complex tasks — don't overcomplicate simple requests.
+
+File Management:
+- You have access to file management tools to read, write, list, search, and organize files on the user's computer.
+- All file operations are sandboxed to specific allowed directories for security.
+- Use "file_get_allowed_dirs" to see which directories you can access.
+- When users ask to create, modify, move, copy, or delete files, use the appropriate tool.
+- For destructive operations (write, delete, move, copy), the user should confirm first unless their intent is clear from context.
+- Deleting directories always requires explicit confirmation.
+
+Email (AgentMail):
+- You have your own dedicated email inbox: echoclaw.bot@agentmail.to
+- Use "send_email" to send emails from your inbox — you can send emails to anyone.
+- Use "list_emails" to check your inbox for new messages.
+- Use "read_email" to read the full content of a specific email.
+- Use "get_inbox_info" to see your inbox status.
+- IMPORTANT: The user will send you periodic messages via email. You should proactively check your inbox using "list_emails" when you haven't heard from the user in a while, or when you want to see if there are new messages.
+- When you check emails, always mark them as read after reading (the API handles this automatically).
+
+Local Documents (QMD):
+- You can search through the user's local documents using QMD (Query Markup Documents).
+- Use "qmd_search" to find information in the user's Documents and Desktop folders.
+- Use "qmd_get" to read the full content of a document.
+- Use "qmd_list_collections" to see available document collections.
+- This is useful for: finding meeting notes, project documentation, reference materials, or any markdown files the user has saved.
+- The search supports semantic (meaning-based) and keyword modes.
+
+Web Browsing (agent-browser):
+- You can browse the internet using the browser automation tools.
+- ALWAYS use these tools when the user asks you to look up something online, visit a website, or interact with a web page.
+- Workflow: 
+  1. Use "browser_navigate" to open a URL and get a snapshot of interactive elements
+  2. The snapshot shows elements with refs like @e1, @e2, @e3 - these are clickable/fillable
+  3. Use "browser_click" to click buttons/links (e.g., browser_click {ref: "@e2"})
+  4. Use "browser_fill" to fill input fields (e.g., browser_fill {ref: "@e3", text: "search query"})
+  5. Use "browser_get_text" to read text from elements
+  6. Use "browser_screenshot" to take a visual screenshot
+  7. Use "browser_scroll" to scroll up/down
+  8. Use "browser_close" when done to free resources
+- Examples:
+  - "Search Google for X" -> browser_navigate to google.com, fill search, click results
+  - "Check the weather" -> browser_navigate to weather.com
+  - "Login to X" -> browser_navigate, fill credentials, click login
 `;
 
 function getDynamicToolInstructions(): string {
@@ -86,37 +136,33 @@ function getDynamicToolInstructions(): string {
 }
 
 
-// ── Per-chat conversation history ──────────────────────────
-const conversationHistory = new Map<number, any[]>();
+const conversationHistory = new Map<string, any[]>();
 const MAX_HISTORY_LENGTH = 50;
 
-function getHistory(chatId: number): any[] {
+function getHistory(chatId: string): any[] {
     if (!conversationHistory.has(chatId)) {
         conversationHistory.set(chatId, []);
     }
     return conversationHistory.get(chatId)!;
 }
 
-function trimHistory(chatId: number): void {
+function trimHistory(chatId: string): void {
     const history = getHistory(chatId);
     if (history.length > MAX_HISTORY_LENGTH) {
         conversationHistory.set(chatId, history.slice(-MAX_HISTORY_LENGTH));
     }
 }
 
-// ── Background Synthesizer ─────────────────────────────────
-const synthesisCounters = new Map<number, number>();
+const synthesisCounters = new Map<string, number>();
 
-function checkAndRunSynthesis(chatId: number, userMessage: string): void {
+function checkAndRunSynthesis(chatId: string, userMessage: string): void {
     const count = (synthesisCounters.get(chatId) || 0) + 1;
     synthesisCounters.set(chatId, count);
 
-    // Run semantic extraction in background every 5 turns
     if (count >= 5) {
-        synthesisCounters.set(chatId, 0); // reset
+        synthesisCounters.set(chatId, 0);
         const history = getHistory(chatId);
 
-        // Grab the last 15 messages for context
         const recentChunk = history.slice(-15).map(m => ({
             role: m.role || "unknown",
             content: typeof m.content === "string" ? m.content : JSON.stringify(m.content)
@@ -124,40 +170,54 @@ function checkAndRunSynthesis(chatId: number, userMessage: string): void {
 
         logger.info("agent", "Triggering background memory synthesis", { chatId });
 
-        // Run without awaiting
         synthesizeMemory(chatId, recentChunk, userMessage).catch(err => {
             logger.error("agent", "Synthesis background task failed", { error: String(err) });
         });
     }
 }
 
-// ── Main agent function ────────────────────────────────────
-export async function runAgent(chatId: number, userMessage: string): Promise<string> {
+export async function runAgent(chatId: string, userMessage: string): Promise<string> {
     const history = getHistory(chatId);
 
     const tools = getToolsForAPI();
-    const memoryContext = await buildMemoryContext(chatId, userMessage);
-    const systemPrompt = BASE_SYSTEM_PROMPT + getDynamicToolInstructions() + memoryContext;
+    
+    // Use new three-tier memory system with error handling
+    let memoryContextString = "";
+    try {
+        const memoryContext = await loadMemoryContext(chatId);
+        memoryContextString = buildMemoryContextString(memoryContext);
+    } catch (memErr) {
+        logger.error("agent", "Failed to load memory context", { error: String(memErr) });
+        // Continue without memory context
+    }
+    
+    const systemPrompt = BASE_SYSTEM_PROMPT + getDynamicToolInstructions() + memoryContextString;
 
     logger.info("agent", `Using provider: ${PROVIDER}`, { model: CLAUDE_MODEL });
 
     history.push({ role: "user", content: userMessage });
     trimHistory(chatId);
 
+    let response: string;
+
     if (PROVIDER === "anthropic") {
-        const text = await runAnthropicAgent(chatId, userMessage, history, tools, systemPrompt);
-        checkAndRunSynthesis(chatId, userMessage);
-        return text;
+        response = await runAnthropicAgent(chatId, userMessage, history, tools, systemPrompt);
     } else {
-        const text = await runOpenRouterAgent(chatId, userMessage, history, tools, systemPrompt);
-        checkAndRunSynthesis(chatId, userMessage);
-        return text;
+        response = await runOpenRouterAgent(chatId, userMessage, history, tools, systemPrompt);
     }
+
+    // Save messages and trigger background tasks
+    try {
+        processConversationBackground(chatId, userMessage, response);
+    } catch (bgErr) {
+        logger.error("agent", "Background processing failed", { error: String(bgErr) });
+    }
+
+    return response;
 }
 
-// ── Anthropic Implementation ────────────────────────────────
 async function runAnthropicAgent(
-    chatId: number,
+    chatId: string,
     userMessage: string,
     history: Anthropic.MessageParam[],
     tools: Anthropic.Tool[],
@@ -211,18 +271,16 @@ async function runAnthropicAgent(
             return `⚠️ Anthropic Error: ${String(err)}`;
         }
     }
-    return "⚠️ Safety limit hit.";
+    return `⚠️ Safety limit hit. Reached ${MAX_AGENT_ITERATIONS} iterations without getting a response.`;
 }
 
-// ── OpenRouter Implementation ────────────────────────────────
 async function runOpenRouterAgent(
-    chatId: number,
+    chatId: string,
     userMessage: string,
     history: OpenAI.Chat.ChatCompletionMessageParam[],
     tools: Anthropic.Tool[],
     systemPrompt: string
 ): Promise<string> {
-    // Convert Anthropic tools to OpenAI tools
     const openAiTools: OpenAI.Chat.ChatCompletionTool[] = tools.map((t) => ({
         type: "function",
         function: {
@@ -248,7 +306,7 @@ async function runOpenRouterAgent(
 
         try {
             const response = await openrouter.chat.completions.create({
-                model: CLAUDE_MODEL, // Or any other model via OpenRouter
+                model: CLAUDE_MODEL,
                 messages,
                 tools: openAiTools.length > 0 ? openAiTools : undefined,
             });
@@ -301,11 +359,10 @@ async function runOpenRouterAgent(
             return `⚠️ OpenRouter Error: ${err.message}${err.status ? ` (Status ${err.status})` : ""}`;
         }
     }
-    return "⚠️ Safety limit hit.";
+    return `⚠️ Safety limit hit. Reached ${MAX_AGENT_ITERATIONS} iterations without getting a response.`;
 }
 
-// ── Global Tool Executor ─────────────────────────────────────
-async function executeTool(name: string, input: any, chatId: number): Promise<string> {
+async function executeTool(name: string, input: any, chatId: string): Promise<string> {
     logger.info("agent", `Tool call: ${name}`, { input });
     const tool = getTool(name);
     if (!tool) return `Error: Unknown tool "${name}"`;
