@@ -4,11 +4,10 @@ dotenv.config();
 import { Agent, tool } from '../src/agent/agent';
 import { registerFunctionTool } from '../src/tools/registry';
 
-// Method 1: Functional Registration (since standard TS doesn't support applying decorators to raw functions)
+// Method 1: Functional Registration
 registerFunctionTool(
     async (args: { location: string }) => {
         console.log(`[Plugin] Fetching weather for ${args.location}...`);
-        // Simulated API call
         return { temperature: 72, conditions: 'sunny' };
     },
     {
@@ -24,7 +23,7 @@ registerFunctionTool(
     }
 );
 
-// Method 2: Class Method Decorators (Standard TS syntax for decorators)
+// Method 2: Class Method Decorators
 class Utilities {
     @tool({
         name: 'reverse_string',
@@ -44,24 +43,31 @@ class Utilities {
 }
 
 async function main() {
+    // We initialize with minimal config because the REAL "Soul" and "User" 
+    // context will now be pulled from your /memory/config/ files.
     const agent = new Agent({
-        model: 'minimax/minimax-m2.5', // OpenRouter model
-        apiKey: process.env.OPENROUTER_API_KEY,
-        baseURL: 'https://openrouter.ai/api/v1',
-        systemPrompt: "You are a helpful AI assistant. You can use tools to answer questions.",
+        model: 'gpt-4o', // Recommended for robust tool use
+        apiKey: process.env.OPENAI_API_KEY,
         memoryFile: './basic-memory.json'
     });
 
-    // Load previous memory if it exists
+    /** * IMPORTANT: This call now triggers the bootstrapMemory() logic.
+     * It reads soul.md, user.md, and memory.md and injects them into the agent.
+     */
+    console.log("Reading identity from /memory/config...");
     await agent.loadMemory();
 
-    console.log("=== AI Agent Framework Example ===");
-    const question1 = "What is the weather in New York?";
+    console.log("=== EchoClaw (OpenClaw-Style) Active ===");
+
+    // TEST 1: Identity Check
+    // If set up correctly, the agent should know who it is based on soul.md
+    const question1 = "Who are you, and what is your current objective?";
     console.log(`\nUser: ${question1}`);
     const response1 = await agent.run(question1);
     console.log(`\nAgent: ${response1}`);
 
-    const question2 = "Please reverse the word 'framework' and calculate 123 * 456.";
+    // TEST 2: Tool Use Check
+    const question2 = "Reverse the word 'EchoClaw' and check the weather in London.";
     console.log(`\nUser: ${question2}`);
     const response2 = await agent.run(question2);
     console.log(`\nAgent: ${response2}`);

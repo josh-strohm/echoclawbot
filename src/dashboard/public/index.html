@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoClaw Mission Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>EchoClaw</h2>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">Dashboard</a>
+                <a href="#chat" class="nav-item" data-tab="chat">Live Chat</a>
+                <a href="#health" class="nav-item" data-tab="health">System Health</a>
+                <a href="#files" class="nav-item" data-tab="files">Files</a>
+                <a href="#memory" class="nav-item" data-tab="memory">Memory</a>
+                <a href="#agents" class="nav-item" data-tab="agents">Agents</a>
+                <a href="#activity" class="nav-item" data-tab="activity">Activity Feed</a>
+                <a href="#tasks" class="nav-item" data-tab="tasks">Tasks</a>
+                <a href="#costs" class="nav-item" data-tab="costs">Costs</a>
+                <a href="#conversations" class="nav-item" data-tab="conversations">Sessions</a>
+                <a href="#skills" class="nav-item" data-tab="skills">Skills</a>
+                <a href="#cron" class="nav-item" data-tab="cron">Cron</a>
+                <a href="#settings" class="nav-item" data-tab="settings">Settings</a>
+                <a href="#terminal" class="nav-item" data-tab="terminal">Terminal</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content vertically split into Header and scrollable View -->
+        <div class="main-wrapper">
+            <header class="topbar">
+                <div class="search-container">
+                    <input type="text" id="globalSearch" placeholder="Search the system...">
+                    <div id="searchResults" class="search-results hidden"></div>
+                </div>
+                <div class="topbar-actions">
+                    <select id="timeRangeSelector">
+                        <option value="24h">Last 24h</option>
+                        <option value="7d">Last 7d</option>
+                        <option value="30d">Last 30d</option>
+                        <option value="all">All Time</option>
+                    </select>
+                    <div class="notifications">
+                        <button id="notifyBtn">🔔</button>
+                    </div>
+                    <div class="user-pill">Admin</div>
+                </div>
+            </header>
+
+            <main class="content-area" id="main-content">
+                <!-- Dynamically loaded tab content goes here -->
+            </main>
+        </div>
+    </div>
+
+    <!-- Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/app.js?v=6"></script>
+    <script src="js/dashboard.js?v=5"></script>
+    <script src="js/health.js?v=5"></script>
+    <script src="js/files.js?v=5"></script>
+    <script src="js/memory.js?v=5"></script>
+    <script src="js/activity.js?v=5"></script>
+    <script src="js/tasks.js?v=5"></script>
+    <script src="js/costs.js?v=5"></script>
+    <script src="js/conversations.js?v=5"></script>
+    <script src="js/cron.js?v=9"></script>
+    <script src="js/settings.js?v=5"></script>
+    <script src="js/agents.js?v=5"></script>
+    <script src="js/terminal.js?v=7"></script>
+    <script src="js/skills.js?v=6"></script>
+    <script src="js/chat.js?v=8"></script>
+</body>
+
+</html>
