@@ -1,6 +1,6 @@
 import { globalToolRegistry } from './registry';
 
-const TAVILY_API_KEY = process.env.TAVILY_API_KEY || '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';
+const TAVILY_API_KEY = process.env.TAVILY_API_KEY || '';
 
 interface TavilySearchResult {
     title: string;
